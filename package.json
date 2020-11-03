@@ -1,0 +1,29 @@
+{
+  "name": "news-api",
+  "version": "1.0.0",
+  "description": "api for progect news",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuretskayaIrina/news-explorer-api.git"
+  },
+  "author": "Yakovleva Irina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TuretskayaIrina/news-explorer-api/issues"
+  },
+  "homepage": "https://github.com/TuretskayaIrina/news-explorer-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.6"
+  }
+}
