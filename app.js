@@ -5,6 +5,8 @@ const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const { login } = require('./controllers/user');
 const { createUser } = require('./controllers/user');
+const usersRouter = require('./routes/user');
+const auth = require('./middlewares/auth');
 
 // подключаемся к серверу mongo
 mongoose.connect('mongodb://localhost:27017/newsdb', {
@@ -35,8 +37,7 @@ app.post('/signin', celebrate({
   }),
 }), login);
 
-// создаёт пользователя с переданными в теле
-// email, password и name
+// создаёт пользователя с переданными в теле email, password и name
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -44,6 +45,10 @@ app.post('/signup', celebrate({
     name: Joi.string().min(2).max(30),
   }).unknown(true),
 }), createUser);
+
+app.use(auth); // защищаем все ниже перечисленные роуты авторизацией
+
+app.use('/users', usersRouter);
 
 app.use(errors()); // обработчик ошибок celebrate
 

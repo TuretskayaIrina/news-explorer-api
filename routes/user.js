@@ -1,12 +1,7 @@
-const router = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
+const usersRouter = require('express').Router();
 const { getUser } = require('../controllers/user');
 
 // вернуть информацию о пользователе (email и имя)
-router.get('/users/me', celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string().required(),
-  }).unknown(true),
-}), getUser);
+usersRouter.get('/me', getUser);
 
-module.exports = router;
+module.exports = usersRouter;
