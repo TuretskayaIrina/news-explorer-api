@@ -6,6 +6,7 @@ const { errors } = require('celebrate');
 const { login } = require('./controllers/user');
 const { createUser } = require('./controllers/user');
 const usersRouter = require('./routes/user');
+const articlesRouter = require('./routes/article');
 const auth = require('./middlewares/auth');
 
 // подключаемся к серверу mongo
@@ -49,6 +50,7 @@ app.post('/signup', celebrate({
 app.use(auth); // защищаем все ниже перечисленные роуты авторизацией
 
 app.use('/users', usersRouter);
+app.use('/articles', articlesRouter);
 
 app.use(errors()); // обработчик ошибок celebrate
 
