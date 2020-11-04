@@ -1,5 +1,6 @@
 const articlesRouter = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const { validatorLink } = require('../middlewares/validate');
 const { getAllArticles } = require('../controllers/article');
 const { postArticles } = require('../controllers/article');
 const { deleteArticles } = require('../controllers/article');
@@ -15,15 +16,15 @@ articlesRouter.post('/', celebrate({
     text: Joi.string().required(),
     date: Joi.string().required(),
     source: Joi.string().required(),
-    link: Joi.string().required().pattern(/^((http|https):\/\/)(www\.)?([\w\W\d]{1,})(\.)([a-zA-Z]{1,10})([\w\W\d]{1,})?$/),
-    image: Joi.string().required().pattern(/^((http|https):\/\/)(www\.)?([\w\W\d]{1,})(\.)([a-zA-Z]{1,10})([\w\W\d]{1,})?$/),
+    link: Joi.string().custom(validatorLink).required(),
+    image: Joi.string().custom(validatorLink).required(),
   }),
 }), postArticles);
 
 // удаляет сохранённую статью  по _id
 articlesRouter.delete('/:articleId', celebrate({
   params: Joi.object().keys({
-    articleId: Joi.string().hex().length(24),
+    articleId: Joi.string().required().hex(),
   }),
 }), deleteArticles);
 

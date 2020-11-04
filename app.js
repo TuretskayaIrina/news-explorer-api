@@ -1,8 +1,10 @@
 const express = require('express');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
+const rateLimit = require('express-rate-limit');
 const { login } = require('./controllers/user');
 const { createUser } = require('./controllers/user');
 const usersRouter = require('./routes/user');
@@ -23,7 +25,19 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
+// используем модуль helmet для установки заголовков, связанных с безопасностью
+app.use(helmet());
+
 app.use(require('cors')());
+
+// ограничиваем число запросов с одного IP до 100 запросов за 15 минут
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
+
+//  apply to all requests
+app.use(limiter);
 
 // используем  env-переменные
 require('dotenv').config();
@@ -45,7 +59,7 @@ app.post('/signin', celebrate({
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().min(10).required().pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/),
+    password: Joi.string().min(10).required().pattern(/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{10,}/), // Please include at least 1 uppercase character, 1 lowercase character, 1 number and 1 special character
     name: Joi.string().min(2).max(30),
   }).unknown(true),
 }), createUser);
