@@ -8,6 +8,7 @@ const { createUser } = require('./controllers/user');
 const usersRouter = require('./routes/user');
 const articlesRouter = require('./routes/article');
 const auth = require('./middlewares/auth');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 // подключаемся к серверу mongo
 mongoose.connect('mongodb://localhost:27017/newsdb', {
@@ -29,6 +30,8 @@ require('dotenv').config();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(requestLogger); // подключаем логгер запросов
 
 // проверяет переданные в теле почту и пароль
 app.post('/signin', celebrate({
@@ -52,21 +55,17 @@ app.use(auth); // защищаем все ниже перечисленные р
 app.use('/users', usersRouter);
 app.use('/articles', articlesRouter);
 
+app.use(errorLogger); // подключаем логгер ошибок
+
 app.use(errors()); // обработчик ошибок celebrate
 
 // централизованная обработка ошибок
-// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   // если у ошибки нет статуса, выставляем 500
   const { statusCode = 500, message } = err;
 
-  res
-    .status(statusCode)
-    .send({
-      // проверяем статус и выставляем сообщение в зависимости от него
-      // eslint-disable-next-line comma-dangle
-      message: statusCode === 500 ? 'На сервере произошла ошибка' : message
-    });
+  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
+  next();
 });
 
 app.listen(PORT, () => {
