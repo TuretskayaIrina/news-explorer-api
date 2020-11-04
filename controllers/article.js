@@ -33,7 +33,15 @@ const postArticles = (req, res, next) => {
     owner: userId,
   })
     .then((article) => {
-      res.send(article);
+      res.send({
+        keyword: article.keyword,
+        title: article.title,
+        text: article.text,
+        date: article.date,
+        source: article.source,
+        link: article.link,
+        image: article.image,
+      });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
