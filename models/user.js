@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
 
 // метод проверки почты и пароля
 // принимает на вход два параметра — почту и пароль, — и возвращает объект пользователя или ошибку.
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.statics.findUserByCredentials = function handlerCredentials(email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
