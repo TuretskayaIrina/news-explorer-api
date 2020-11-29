@@ -34,6 +34,7 @@ const postArticles = (req, res, next) => {
   })
     .then((article) => {
       res.send({
+        _id: article._id,
         keyword: article.keyword,
         title: article.title,
         text: article.text,

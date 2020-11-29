@@ -34,8 +34,8 @@ const validateSignup = celebrate({
       .messages({
         'any.required': 'Поле "email" обязательно для заполнения!',
       }),
-    password: Joi.string().min(10).required().pattern(/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{10,}/)
-      .message('Пороль должен быть надежным! Пожалуйста, включите в пароль 1 символ в верхнем регистре, 1 символ в нижнем регистре и один спецсимвол!')
+    password: Joi.string().min(10).required().pattern(/^\S+$/)
+      .message('Пороль должен быть без')
       .messages({
         'any.required': 'Поле "password" обязательно для заполнения!',
         'string.min': 'Минимальная длина поля "password" 10 символов!',
