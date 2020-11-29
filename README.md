@@ -29,7 +29,7 @@ $ npm run start
 ### REST API
 ___
 
-[84.201.159.109](https://api.turetskaya-news.students.nomoreparties.co/)
+[84.201.136.50](https://www.api.avocado.students.nomoreparties.xyz)
 
 ### Deploy
 ___
