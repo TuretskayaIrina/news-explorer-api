@@ -4,7 +4,7 @@ const NotFoundError = require('../errors/not-found-err');
 const ForbiddenError = require('../errors/forbidden-error');
 
 // вернуть все статьи
-const getAllArticles = (req, res, next) => Articles.find({})
+const getAllArticles = (req, res, next) => Articles.find({}).select('+owner')
   .then((cards) => {
     res.send((cards));
   })
@@ -33,16 +33,7 @@ const postArticles = (req, res, next) => {
     owner: userId,
   })
     .then((article) => {
-      res.send({
-        _id: article._id,
-        keyword: article.keyword,
-        title: article.title,
-        text: article.text,
-        date: article.date,
-        source: article.source,
-        link: article.link,
-        image: article.image,
-      });
+      res.send(article);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

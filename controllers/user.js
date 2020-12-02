@@ -59,7 +59,7 @@ const getUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError({ message: 'Такой пользователь не найден' });
       }
-      res.send({ email: user.email, name: user.name });
+      res.send({ data: user });
     })
     .catch(next);
 };
