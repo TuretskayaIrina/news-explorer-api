@@ -29,9 +29,9 @@ $ npm run start
 ### REST API
 ___
 
-[84.201.136.50](https://www.api.avocado.students.nomoreparties.xyz)
+[84.201.160.75](https://www.api.whathappend.students.nomoreparties.xyz)
 
 ### Deploy
 ___
 
-(in developing)
+[Register and repost, please =)](https://whathappend.students.nomoreparties.xyz/)
